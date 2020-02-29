@@ -40,9 +40,8 @@ const initialState = {
         number: false,
         cep: false,
         complement: false,
-        reference: false,
-        error: null
-    }
+        reference: false
+    }, error: null
 }
 
 export default class SignUp extends Component {
@@ -76,7 +75,7 @@ export default class SignUp extends Component {
                             name="cpf"
                             value={this.state.person.cpf}
                             onChange={e => this.updateField(e)}
-                            placeholder="000.000.000-00"/>
+                            placeholder="Digite somente os números"/>
                         </div>
                     </div>
                     <div className="row">
@@ -107,7 +106,7 @@ export default class SignUp extends Component {
                             name="cnh"
                             value={this.state.person.cnh}
                             onChange={e => this.updateField(e)}
-                            placeholder="00000000000"/>
+                            placeholder="Digite somente os números"/>
                         </div>
                         <div className="col-4">
                             <label>Categoria habilitada:</label>
@@ -122,7 +121,7 @@ export default class SignUp extends Component {
                         </div>
                         <div className="col-4">
                             <label>Validade:</label>
-                            <input type="text" className="form-control"
+                            <input type="date" className="form-control"
                             name="vality"
                             value={this.state.person.vality}
                             onChange={e => this.updateField(e)}
@@ -191,7 +190,7 @@ export default class SignUp extends Component {
                                 name="cep"
                                 value={this.state.person.cep}
                                 onChange={e => this.updateField(e)}
-                                placeholder="00000-000"/>
+                                placeholder="Digite somente os números"/>
                         </div>
                         <div className="col-4">
                                 <label>Complemento:</label>
@@ -227,17 +226,21 @@ export default class SignUp extends Component {
         const personErrors = { ...this.state.personErrors }
 
         const trimedName = person.name.trim()
+        console.log(trimedName.length)
+        console.log(trimedName)
         if(trimedName.length === 0 ) { // Nome em branco
+            console.log('a')
             personErrors.name = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
         
         if(trimedName.search(' ') === -1) { // Nome não contém espaços (Logo, não é completo)
+            console.log('b')
             personErrors.name = true
-            personErrors.error = true
-            this.setState({ personErrors })
-        }   
+            this.setState({ personErrors: personErrors })
+            this.setState({ error: true })
+        }
     }
 
     handleCpf() {
@@ -247,8 +250,8 @@ export default class SignUp extends Component {
         const trimedCpf = person.cpf.trim()
         if(trimedCpf.length !== 11) { // CPF inválido
             personErrors.cpf = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -259,8 +262,8 @@ export default class SignUp extends Component {
         const trimedEmail = person.email.trim()
         if(trimedEmail.search('@') === -1) { // Email inválido
             personErrors.email = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -271,20 +274,20 @@ export default class SignUp extends Component {
         const trimedPhone = person.phone.trim()
         if(trimedPhone.length !== 11) { // Telefone inválido
             personErrors.phone = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
     handleCnh() {
         const person = { ...this.state.person }
         const personErrors = { ...this.state.personErrors }
-        
+
         const trimedCnh = person.cnh.trim()
         if(trimedCnh.length !== 11) { // CNH inválida
-            personErrors.phone = true
-            personErrors.error = true
+            personErrors.cnh = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -295,8 +298,19 @@ export default class SignUp extends Component {
         const trimedVality = person.vality.trim()
         if(trimedVality.length === 0) { // Validade em branco
             personErrors.vality = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
+        }
+        const valityYear = trimedVality.slice(0, 4)
+        const valityMonth = trimedVality.slice(5, 7)
+        const valityDay = trimedVality.slice(8, 10)
+   
+        const valityDate = new Date(valityYear, valityMonth, valityDay)
+        const now = Date.now() 
+        if(valityDate > now){
+            personErrors.vality = true
+            this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -307,8 +321,8 @@ export default class SignUp extends Component {
         const trimedCountry = person.country.trim()
         if(trimedCountry.length === 0) { // País em branco
             personErrors.country = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -319,8 +333,8 @@ export default class SignUp extends Component {
         const trimedState = person.state.trim()
         if(trimedState.length === 0) { // Estado em branco
             personErrors.state = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
     handleCity() {
@@ -330,8 +344,8 @@ export default class SignUp extends Component {
         const trimedCity = person.city.trim()
         if(trimedCity.length === 0) { // Cidade em branco
             personErrors.city = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
     handleAddress() {
@@ -341,8 +355,8 @@ export default class SignUp extends Component {
         const trimedAddress = person.address.trim()
         if(trimedAddress.length === 0) { // Endereço em branco
             personErrors.address = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -353,8 +367,8 @@ export default class SignUp extends Component {
         const trimedNeighborhood = person.neighborhood.trim()
         if(trimedNeighborhood.length === 0) { // Bairro em branco
             personErrors.neighborhood = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -365,8 +379,8 @@ export default class SignUp extends Component {
         const trimedNumber = person.number.trim()
         if(trimedNumber.length === 0) { // Número em branco
             personErrors.number = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
@@ -377,43 +391,48 @@ export default class SignUp extends Component {
         const trimedCep = person.cep.trim()
         if(trimedCep.length !== 8) { // CEP inválido
             personErrors.cep = true
-            personErrors.error = true
             this.setState({ personErrors })
+            this.setState({ error: true })
         }
     }
 
-    handleSignUp() {
-        this.setState({ personErrors: initialState.personErrors })
-
-        this.handleName()
-        this.handleCpf()
-        this.handleEmail()
-        this.handlePhone()
-        this.handleCnh()
-        this.handleVality()
-        this.handleCountry()
-        this.handleState()
-        this.handleCity()
-        this.handleAddress()
-        this.handleNeighborhood()
-        this.handleNumber()
-        this.handleCep()
+    async handleSignUp() {
+        this.setState({ personErrors: initialState.personErrors }, () => {
+            this.handleCep()
+            this.handleNumber()
+            this.handleNeighborhood()
+            this.handleAddress()
+            this.handleCity()
+            this.handleState()
+            this.handleCountry()
+            this.handleVality()
+            this.handleCnh()
+            this.handlePhone()
+            this.handleEmail()
+            this.handleCpf()
+            this.handleName()
+        })
     }
 
-    save() {
-        this.handleSignUp()
+    async save() {
+        await this.handleSignUp()
+        if(this.state.personErrors.error === false){
+            this.setState({ person: initialState.person })
+        }
+        
         console.log(this.state.person)
         console.log(this.state.personErrors)
+        console.log(this.state.person.vality)
     }
 
     renderMessage() {
-        if(this.state.personErrors.error === false){
+        if(this.state.error === false){
             return (
                 <div className="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Informações guardadas com sucesso!</strong>
                 </div>
             )
-        } else if (this.state.personErrors.error === true) {
+        } else if (this.state.error === true) {
             if(this.state.personErrors.name === true) {
                 return (
                     <div className="alert alert-danger alert-dismissible fade show" role="alert">
@@ -492,6 +511,12 @@ export default class SignUp extends Component {
                         <strong>Há algo errado no número da sua residencia!</strong>
                     </div>
                 )
+            }   else if(this.state.personErrors.cep === true){
+                    return (
+                        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Há algo errado no número do seu CEP!</strong>
+                        </div>
+                    )
             } else {
                 return
             }
