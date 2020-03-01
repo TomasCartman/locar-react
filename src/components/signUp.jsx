@@ -121,7 +121,7 @@ export default class SignUp extends Component {
                                 name="category"
                                 value={this.state.person.category}
                                 onChange={e => this.updateField(e)}>
-                                <option selected  value="B">B</option>
+                                <option selected value="B">B</option>
                                 <option value="C">C</option>
                                 <option value="D">D</option> 
                             </select>
@@ -220,7 +220,7 @@ export default class SignUp extends Component {
                     <div className="d-flex justify-content-end">
                         <button className="btn btn-primary"
                             onClick={() => this.save()}>
-                            Cadastra-se
+                            Cadastrar-se
                         </button>
                     </div>
                     <br/>

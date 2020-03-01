@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import './admin.css'
 
 import 'firebase/database'
-
 import Firebase from '../main/Firebase'
 
 const database = Firebase.database()

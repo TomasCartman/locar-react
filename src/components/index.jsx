@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
 
-import './signUp.css'
-
 import 'firebase/database'
-
-import Firebase from '../main/Firebase'
-
-const database = Firebase.database()
 
 export default class index extends Component {
     state = {  }
@@ -45,12 +39,46 @@ export default class index extends Component {
         )
     }
 
+    renderMain() {
+        return(
+            <React.Fragment>
+                <br/>
+                <h3>Login:</h3>
+                <div className="form">
+                    <div className="col-10">
+                        <div className="row">
+                            <label>Email:</label>
+                            <input type="text" className="form-control"
+                                name="email"
+                                placeholder="Digite seu email" 
+                                required />
+                        </div>
+                        <div className="row">
+                            <label>CPF:</label>
+                            <input type="text" className="form-control"
+                                name="cpf"
+                                placeholder="Digite somente os números"/>
+                        </div>
+                        <br/>
+                        <div className="d-flex justify-content-end">
+                        <button className="btn btn-primary">
+                            Entrar
+                        </button>
+                    </div>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
 
     render() {
         return(
             <React.Fragment>
                 <div className="container-fluig">
                     {this.renderHeader()}
+                </div>
+                <div className="container">
+                    {this.renderMain()}
                 </div>
             </React.Fragment>
         )
