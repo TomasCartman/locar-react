@@ -3,8 +3,10 @@ import React, { Component } from 'react'
 import './signUp.css'
 
 import 'firebase/database'
-import 'firebase/storage'
-//import Firebase from '../../main/Firebase'
+
+import Firebase from '../main/Firebase'
+
+const database = Firebase.database()
 
 const initialState = {
     person: {
@@ -46,6 +48,10 @@ const initialState = {
 
 export default class SignUp extends Component {
     state = { ...initialState }
+
+    componentWillMount() {
+        document.title = 'LoCar'
+    }
 
     updateField(event) {
         const person = { ...this.state.person }
@@ -115,7 +121,7 @@ export default class SignUp extends Component {
                                 name="category"
                                 value={this.state.person.category}
                                 onChange={e => this.updateField(e)}>
-                                <option value="B">B</option>
+                                <option selected  value="B">B</option>
                                 <option value="C">C</option>
                                 <option value="D">D</option> 
                             </select>
@@ -421,6 +427,25 @@ export default class SignUp extends Component {
     async save() {
         await this.handleSignUp()
         if(this.state.error === false){
+            const person = { ...this.state.person }
+            database.ref('person/' + person.cpf).set({
+                name: person.name,
+                cpf: person.cpf,
+                email: person.email,
+                phone: person.phone,
+                cnh: person.cnh,
+                category: person.category,
+                vality: person.vality,
+                country: person.country,
+                state: person.state,
+                city: person.city,
+                address: person.address,
+                neighborhood: person.neighborhood,
+                number: person.number,
+                cep: person.cep,
+                complement: person.complement,
+                reference: person.reference
+            })
             this.setState({ person: initialState.person })
         }
         
@@ -532,7 +557,7 @@ export default class SignUp extends Component {
         return(
             <React.Fragment>
                 <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-                <a class="navbar-brand" href="/">Locar</a>
+                <a class="navbar-brand" href="/">LoCar</a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -540,13 +565,16 @@ export default class SignUp extends Component {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                     <li className="nav-item active">
-                        <a className="nav-link" href="/">Cadastro <span class="sr-only">(current)</span></a>
+                        <a className="nav-link" href="/cadastro">Cadastro <span class="sr-only">(current)</span></a>
                     </li>
-                    <li className="nav-item active">
+                    <li className="nav-item deactive">
                         <a className="nav-link disabled" href="/login">Login</a>
                     </li>
+                    <li className="nav-item deactive">
+                        <a className="nav-link disabled" href="/sobre">Sobre</a>
+                    </li>
                     <li className="nav-item active">
-                        <a className="nav-link disabled" href="/login">Sobre</a>
+                        <a className="nav-link" href="/admin">Admin</a>
                     </li>
                     </ul>
                 </div>
