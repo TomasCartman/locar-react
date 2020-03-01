@@ -257,6 +257,14 @@ export default class SignUp extends Component {
             this.setState({ personErrors })
             this.setState({ error: true })
         }
+        const numeredCpf = Number.parseFloat(trimedCpf)
+
+        if(!Number.isInteger(numeredCpf)) {
+            personErrors.cpf = true
+            this.setState({ personErrors })
+            this.setState({ error: true })
+        }
+        
     }
 
     handleEmail() {
@@ -281,6 +289,13 @@ export default class SignUp extends Component {
             this.setState({ personErrors })
             this.setState({ error: true })
         }
+        const numeredPhone = Number.parseFloat(trimedPhone)
+
+        if(!Number.isInteger(numeredPhone)) {
+            personErrors.phone = true
+            this.setState({ personErrors })
+            this.setState({ error: true })
+        }
     }
 
     handleCnh() {
@@ -289,6 +304,13 @@ export default class SignUp extends Component {
 
         const trimedCnh = person.cnh.trim()
         if(trimedCnh.length !== 11) { // CNH inválida
+            personErrors.cnh = true
+            this.setState({ personErrors })
+            this.setState({ error: true })
+        }
+        const numeredCnh = Number.parseFloat(trimedCnh)
+
+        if(!Number.isInteger(numeredCnh)) {
             personErrors.cnh = true
             this.setState({ personErrors })
             this.setState({ error: true })
@@ -311,8 +333,6 @@ export default class SignUp extends Component {
    
         const valityDate = new Date(valityYear, valityMonth, valityDay).getTime()
         const now = Date.now()
-        console.log('ValityDate ' + valityDate)
-        console.log('Now ' + now)
         if(valityDate < now){
             personErrors.vality = true
             this.setState({ personErrors })
@@ -400,6 +420,13 @@ export default class SignUp extends Component {
             this.setState({ personErrors })
             this.setState({ error: true })
         }
+        const numeredCep = Number.parseFloat(trimedCep)
+
+        if(!Number.isInteger(numeredCep)) {
+            personErrors.cep = true
+            this.setState({ personErrors })
+            this.setState({ error: true })
+        }
     }
 
     async handleSignUp() {
@@ -448,11 +475,6 @@ export default class SignUp extends Component {
             })
             this.setState({ person: initialState.person })
         }
-        
-        console.log(this.state.person)
-        console.log(this.state.personErrors)
-        console.log(this.state.error)
-        console.log(this.state.person.vality)
     }
 
     renderMessage() {
