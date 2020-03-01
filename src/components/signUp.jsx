@@ -82,7 +82,9 @@ export default class SignUp extends Component {
                             name="cpf"
                             value={this.state.person.cpf}
                             onChange={e => this.updateField(e)}
-                            placeholder="Digite somente os números"/>
+                            placeholder="Digite somente os números"
+                            maxlength="11"
+                            minLength="11"/>
                         </div>
                     </div>
                     <div className="row">
@@ -100,7 +102,8 @@ export default class SignUp extends Component {
                             name="phone"
                             value={this.state.person.phone}
                             onChange={e => this.updateField(e)}
-                            placeholder="DDD com número sem espaços"/>
+                            placeholder="DDD com número sem espaços"
+                            maxlength="11"/>
                         </div>
                     </div>
 
@@ -113,7 +116,8 @@ export default class SignUp extends Component {
                             name="cnh"
                             value={this.state.person.cnh}
                             onChange={e => this.updateField(e)}
-                            placeholder="Digite somente os números"/>
+                            placeholder="Digite somente os números"
+                            maxlength="11"/>
                         </div>
                         <div className="col-4">
                             <label>Categoria habilitada:</label>
@@ -197,7 +201,8 @@ export default class SignUp extends Component {
                                 name="cep"
                                 value={this.state.person.cep}
                                 onChange={e => this.updateField(e)}
-                                placeholder="Digite somente os números"/>
+                                placeholder="Digite somente os números"
+                                maxlength="8"/>
                         </div>
                         <div className="col-4">
                                 <label>Complemento:</label>
