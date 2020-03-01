@@ -15,7 +15,7 @@ const initialState = {
         email: '',
         phone: '',
         cnh: '',
-        category: '',
+        category: 'B',
         vality: '',
         country: '',
         state: '',
