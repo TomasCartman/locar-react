@@ -56,6 +56,7 @@ export default class SignUp extends Component {
     renderTable() {
         return(
             <React.Fragment>
+                <br/>
                 <h1>Cadastro do Locatário</h1>
                 <div className="form">
                 <h3 className="subTitle">Dados pessoais:</h3>
@@ -93,7 +94,7 @@ export default class SignUp extends Component {
                             name="phone"
                             value={this.state.person.phone}
                             onChange={e => this.updateField(e)}
-                            placeholder="(99) 99999-9999"/>
+                            placeholder="DDD com número sem espaços"/>
                         </div>
                     </div>
 
@@ -216,6 +217,7 @@ export default class SignUp extends Component {
                             Cadastra-se
                         </button>
                     </div>
+                    <br/>
                 </div>
             </React.Fragment>
         )
@@ -226,17 +228,13 @@ export default class SignUp extends Component {
         const personErrors = { ...this.state.personErrors }
 
         const trimedName = person.name.trim()
-        console.log(trimedName.length)
-        console.log(trimedName)
         if(trimedName.length === 0 ) { // Nome em branco
-            console.log('a')
             personErrors.name = true
             this.setState({ personErrors })
             this.setState({ error: true })
         }
         
         if(trimedName.search(' ') === -1) { // Nome não contém espaços (Logo, não é completo)
-            console.log('b')
             personErrors.name = true
             this.setState({ personErrors: personErrors })
             this.setState({ error: true })
@@ -305,9 +303,11 @@ export default class SignUp extends Component {
         const valityMonth = trimedVality.slice(5, 7)
         const valityDay = trimedVality.slice(8, 10)
    
-        const valityDate = new Date(valityYear, valityMonth, valityDay)
-        const now = Date.now() 
-        if(valityDate > now){
+        const valityDate = new Date(valityYear, valityMonth, valityDay).getTime()
+        const now = Date.now()
+        console.log('ValityDate ' + valityDate)
+        console.log('Now ' + now)
+        if(valityDate < now){
             personErrors.vality = true
             this.setState({ personErrors })
             this.setState({ error: true })
@@ -397,31 +397,36 @@ export default class SignUp extends Component {
     }
 
     async handleSignUp() {
-        this.setState({ personErrors: initialState.personErrors }, () => {
-            this.handleCep()
-            this.handleNumber()
-            this.handleNeighborhood()
-            this.handleAddress()
-            this.handleCity()
-            this.handleState()
-            this.handleCountry()
-            this.handleVality()
-            this.handleCnh()
-            this.handlePhone()
-            this.handleEmail()
-            this.handleCpf()
-            this.handleName()
+        this.setState({ error: null }, () => {
+            this.setState({ personErrors: initialState.personErrors }, () => {
+                this.handleCep()
+                this.handleNumber()
+                this.handleNeighborhood()
+                this.handleAddress()
+                this.handleCity()
+                this.handleState()
+                this.handleCountry()
+                this.handleVality()
+                this.handleCnh()
+                this.handlePhone()
+                this.handleEmail()
+                this.handleCpf()
+                this.handleName()
+            })
         })
+
+        if(this.state.error === null) this.setState({ error: false})
     }
 
     async save() {
         await this.handleSignUp()
-        if(this.state.personErrors.error === false){
+        if(this.state.error === false){
             this.setState({ person: initialState.person })
         }
         
         console.log(this.state.person)
         console.log(this.state.personErrors)
+        console.log(this.state.error)
         console.log(this.state.person.vality)
     }
 
@@ -523,9 +528,39 @@ export default class SignUp extends Component {
         }
     }
 
+    renderHeader(){
+        return(
+            <React.Fragment>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <a class="navbar-brand" href="/">Locar</a>
+                <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+
+                <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className="navbar-nav mr-auto">
+                    <li className="nav-item active">
+                        <a className="nav-link" href="/">Cadastro <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li className="nav-item active">
+                        <a className="nav-link disabled" href="/login">Login</a>
+                    </li>
+                    <li className="nav-item active">
+                        <a className="nav-link disabled" href="/login">Sobre</a>
+                    </li>
+                    </ul>
+                </div>
+                </nav>
+            </React.Fragment>
+        )
+    }
+
     render() {
         return (
             <React.Fragment>
+                <div className="container-fluig">
+                    {this.renderHeader()}
+                </div>
                 <div className="container">
                     {this.renderMessage()}
                 </div>
